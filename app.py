@@ -147,4 +147,4 @@ def major_diff(curr_code, quot_number):
 
 
 if __name__ == '__main__':
-    app.run(port=8888)
+    app.run(port=8000)
