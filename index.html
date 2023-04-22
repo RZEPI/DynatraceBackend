@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend oriented task</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('input[type=radio][name=option]').change(function(){
+                if($(this).val() == "avg_exch")
+                {
+                    $('#date_curr').show();
+                    $('#curr_lastQ').hide();
+                }
+                else
+                {
+                    $('#date_curr').hide();
+                    $('#curr_lastQ').show();
+                }
+            });
+        });
+        function getAvgExch()
+        {
+            var currency = $('#currencyD').val();
+            var date = $('#date').val();
+            $.get('/exchanges/${currency}/${date}',function(data){
+                $('#result').text(data.result);
+                $('#result').show();
+            });
+        }
+        function getCurrLastQ()
+        {
+            var currency = $('#currencyL').val();
+            var quot_number = $('#number').val();
+            var option = $('input[name=option]:checked').val()
+            if(option == "min_max_val")
+            {
+                $.get('/minmaxval/${quot_number}/${currency}',function(data){
+                    $('#result').text(data.result);
+                    $('#result').show();
+                });
+            }
+            else
+            {
+                $.get('/majordiff/${quot_number}/${currency}',function(data){
+                    $('#result').text(data.result);
+                    $('#result').show();
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Choose which data you want to get</h1>
+    <label for="avg_exch">Average exchange rate</label><input type="radio" name="option" value="avg_exch" id="avg_exch"><br>
+    <label for="min_max_val">Max and min average value</label><input type="radio" name="option" value="min_max_val" id="min_max_val"><br>
+    <label for="major_diff">Major differrence between the buy and ask rate</label><input type="radio" name="option" value="major_diff" id="major_diff"><br>
+    <form id="date_curr" style="display: none;">
+        <fieldset>
+            <legend>Date and currency code</legend>
+            <label for="date">Input date:</label>
+            <input type="date" id="date">
+            <label for="currencyD">Input currency code:</label>
+            <input type="text" id="currencyD">
+            <button onclick="getAvgExch()">Send</button>
+        </fieldset>
+    </form>
+    <form id="curr_lastQ" style="display: none;">
+        <fieldset>
+            <legend>Currency code and number of last quoations</legend>
+            <label for="currencyL">Input currency code:</label>
+            <input type="text" id="currencyL">
+            <label for="number">Input number:</label>
+            <input type="number" id="number" min="1" max="255">
+            <button onclick="getCurrLastQ()">Send</button>
+        </fieldset>
+    </form>
+    <h1 id="result" style="display: none;"></h1>
+</body>
+</html>
