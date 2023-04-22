@@ -21,33 +21,36 @@
                 }
             });
         });
-        function getAvgExch()
+
+        function getResult(text, mode, args)
         {
-            var currency = $('#currencyD').val();
-            var date = $('#date').val();
-            $.get('/exchanges/${currency}/${date}',function(data){
-                $('#result').text(data.result);
+            $.get('http://localhost:8888/'+mode+'/'+args[0]+'/'+args[1],function(data){
+                data = JSON.parse(data);
+                $('#result').text(text + " " +data.result);
                 $('#result').show();
             });
         }
-        function getCurrLastQ()
+
+        function getAvgExch(event)
         {
+            event.preventDefault();
+            var currency = $('#currencyD').val();
+            var date = $('#date').val();
+            getResult('Exchange rate of given currency at '+date+':','exchenge', [currency, date]);
+        }
+        function getCurrLastQ(event)
+        {
+            event.preventDefault();
             var currency = $('#currencyL').val();
             var quot_number = $('#number').val();
             var option = $('input[name=option]:checked').val()
             if(option == "min_max_val")
             {
-                $.get('/minmaxval/${quot_number}/${currency}',function(data){
-                    $('#result').text(data.result);
-                    $('#result').show();
-                });
+                getResult('Min and max value in last '+quot_number+' days: ','minmaxval', [currency, quot_number]);
             }
             else
             {
-                $.get('/majordiff/${quot_number}/${currency}',function(data){
-                    $('#result').text(data.result);
-                    $('#result').show();
-                });
+                getResult('Major difference beetween the buy and ask rate in last '+quot_number+' days: ', 'majordiff', [currency, quot_number]);
             }
         }
     </script>
@@ -57,24 +60,24 @@
     <label for="avg_exch">Average exchange rate</label><input type="radio" name="option" value="avg_exch" id="avg_exch"><br>
     <label for="min_max_val">Max and min average value</label><input type="radio" name="option" value="min_max_val" id="min_max_val"><br>
     <label for="major_diff">Major differrence between the buy and ask rate</label><input type="radio" name="option" value="major_diff" id="major_diff"><br>
-    <form id="date_curr" style="display: none;">
+    <form id="date_curr" style="display: none;" onsubmit="getAvgExch(event)">
         <fieldset>
             <legend>Date and currency code</legend>
             <label for="date">Input date:</label>
             <input type="date" id="date">
             <label for="currencyD">Input currency code:</label>
             <input type="text" id="currencyD">
-            <button onclick="getAvgExch()">Send</button>
+            <input type="submit" value="Submit">
         </fieldset>
     </form>
-    <form id="curr_lastQ" style="display: none;">
+    <form id="curr_lastQ" style="display: none;" onsubmit="getCurrLastQ(event)">
         <fieldset>
             <legend>Currency code and number of last quoations</legend>
             <label for="currencyL">Input currency code:</label>
             <input type="text" id="currencyL">
             <label for="number">Input number:</label>
             <input type="number" id="number" min="1" max="255">
-            <button onclick="getCurrLastQ()">Send</button>
+            <input type="submit" value="Submit">
         </fieldset>
     </form>
     <h1 id="result" style="display: none;"></h1>

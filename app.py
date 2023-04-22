@@ -1,10 +1,12 @@
 import requests
-from flask import Flask, request
+from flask import Flask, request, render_template
+from flask_cors import CORS
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 from datetime import datetime
 import json
 
 app = Flask(__name__)
-
+CORS(app)
 
 def parse_curr_code(curr_code):
     try:
@@ -64,6 +66,8 @@ def min_max_val_result(response_data):
             min_val = rate_val
         if rate_val > max_val:
             max_val = rate_val
+    min_val = "{:.4f}".format(min_val)
+    max_val = "{:.4f}".format(max_val)
     return (min_val, max_val)
 
 
@@ -74,7 +78,7 @@ def major_diff_result(response_data):
         diff = rate['ask'] - rate['bid']
         if diff > max_diff:
             max_diff = diff
-
+    max_diff = "{:.4f}".format(max_diff)
     return max_diff
 
 
@@ -119,6 +123,9 @@ def get_response(curr_code, quot_number, result_func, table="a"):
 
     return check_final_result(response, result_func)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/exchanges/<string:curr_code>/<string:date>', methods=['GET'])
 def avg_exch(curr_code, date):
@@ -147,4 +154,5 @@ def major_diff(curr_code, quot_number):
 
 
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(port=8888)
+
