@@ -65,6 +65,16 @@ def min_max_val_result(response_data):
     return (min_val, max_val)
 
 
+def major_diff_result(response_data):
+    rates = response_data['rates']
+    max_diff = -1
+    for rate in rates:
+        diff = rate['ask'] - rate['bid']
+        if diff > max_diff:
+            max_diff = diff
+    
+    return max_diff
+
 def check_final_result(response, result_func):
     if parse_response(response):
         response_data = json.loads(response.text)
@@ -92,10 +102,25 @@ def get_quot_num():
     quot_num = parse_quot_num(quot_num)
 
 
+def get_response(curr_code, quot_number, result_func, table="a"):
+    curr_code = parse_curr_code(curr_code)
+    quot_num = parse_quot_num(quot_number)
+
+    if curr_code == None:
+        return json.dumps({'result': "Invalid currency code format"})
+    if quot_num == None:
+        return json.dumps({'result': "Invalid number of quotations format"})
+
+    url = make_url((curr_code, quot_num), table, last_data=True)
+    response = requests.get(url)
+    
+    return check_final_result(response, result_func)
+
 @app.route('/exchanges/<string:curr_code>/<string:date>', methods=['GET'])
 def avg_exch(curr_code, date):
     curr_code = parse_curr_code(curr_code)
     date = parse_date(date)
+
     if curr_code == None:
         return json.dumps({'result': "Invalid currency code format"})
     if date == None:
@@ -109,21 +134,11 @@ def avg_exch(curr_code, date):
 
 @app.route('/minmaxval/<string:curr_code>/<string:quot_number>', methods=['GET'])
 def min_max_val(curr_code, quot_number):
-    curr_code = parse_curr_code(curr_code)
-    quot_num = parse_quot_num(quot_number)
+    return get_response(curr_code, quot_number, min_max_val_result, "a")
 
-    print(curr_code, quot_num)
-
-    if curr_code == None:
-        return json.dumps({'result': "Invalid currency code format"})
-    if quot_num == None:
-        return json.dumps({'result': "Invalid number of quotations format"})
-
-    url = make_url((curr_code, quot_num), last_data=True)
-    response = requests.get(url)
-
-    return check_final_result(response, min_max_val_result)
-
+@app.route('/majordiff/<string:curr_code>/<string:quot_number>', methods=['GET'])
+def major_diff(curr_code, quot_number):
+    return get_response(curr_code, quot_number, major_diff_result, "c")
 
 if __name__ == '__main__':
     app.run(port=8888)
