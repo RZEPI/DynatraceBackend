@@ -29,6 +29,9 @@
                 data = JSON.parse(data);
                 $('#result').text(text + " " +data.result);
                 $('#result').show();
+            }).fail(function(){
+                $('#result').text('Something went wrong with connection');
+                $('#result').show();
             });
         }
 
@@ -37,8 +40,9 @@
             event.preventDefault();
             var currency = $('#currencyD').val();
             var date = $('#date').val();
-            getResult('Exchange rate of given currency at '+date+':','exchenge', [currency, date]);
+            getResult('Exchange rate of given currency at '+date+':','exchanges', [currency, date]);
         }
+
         function getCurrLastQ(event)
         {
             event.preventDefault();
@@ -54,6 +58,7 @@
                 getResult('Major difference beetween the buy and ask rate in last '+quot_number+' days: ', 'majordiff', [currency, quot_number]);
             }
         }
+
     </script>
 </head>
 <body>
