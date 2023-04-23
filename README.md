@@ -25,7 +25,7 @@ Example of text command
 curl http://localhost:8888/minmaxval/gbp/2
 ```
 
-##Run tests
+### Run tests
 To run tests make sure that you are in virtual environment which was made executing one of scripts
 For Linux:
 ```
