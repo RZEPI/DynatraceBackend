@@ -8,6 +8,7 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+
 def parse_curr_code(curr_code):
     try:
         curr_code = curr_code.lower()
@@ -92,23 +93,6 @@ def check_final_result(response, result_func):
         return json.dumps({'result': f"Error {response.status_code} occured"})
 
 
-def get_curr_code():
-    curr_code = request.args.get('currency')
-    curr_code = parse_curr_code(curr_code)
-    return curr_code
-
-
-def get_date():
-    date = request.args.get('date')
-    date = parse_date(date)
-    return date
-
-
-def get_quot_num():
-    quot_num = request.args.get('quot_num')
-    quot_num = parse_quot_num(quot_num)
-
-
 def get_response(curr_code, quot_number, result_func, table="a"):
     curr_code = parse_curr_code(curr_code)
     quot_num = parse_quot_num(quot_number)
@@ -123,9 +107,11 @@ def get_response(curr_code, quot_number, result_func, table="a"):
 
     return check_final_result(response, result_func)
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/exchanges/<string:curr_code>/<string:date>', methods=['GET'])
 def avg_exch(curr_code, date):
@@ -155,4 +141,3 @@ def major_diff(curr_code, quot_number):
 
 if __name__ == '__main__':
     app.run(port=8888)
-
