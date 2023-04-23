@@ -20,7 +20,7 @@ For Windows:
 ```
 Nextly, in your browser type `localhost:8888` in search bar to use GUI
 Usage of command `curl` in command prompt is also handled but unrecommanded(it returns whole header on Windows)
-Example of text command
+> Example of text command
 ```
 curl http://localhost:8888/minmaxval/gbp/2
 ```
