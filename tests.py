@@ -4,42 +4,75 @@ import app
 
 class TestParseCurrCode(unittest.TestCase):
 
-    def setUp(self):
-        self.app = app
-
     def test_valid_curr_code(self):
-        result = self.app.parse_curr_code('eur')
+        result = app.parse_curr_code('eur')
         self.assertEqual(result, 'eur')
 
     def test_valid_curr_code_upper(self):
-        result = self.app.parse_curr_code('EUR')
+        result = app.parse_curr_code('EUR')
         self.assertEqual(result, 'eur')
 
     def test_invalid_curr_code_num(self):
-        result = self.app.parse_curr_code('123')
+        result = app.parse_curr_code('123')
         self.assertEqual(result, None)
 
     def test_invalid_curr_code_len(self):
-        result = self.app.parse_curr_code('euro')
+        result = app.parse_curr_code('euro')
         self.assertEqual(result, None)
 
 
 class TestParseDate(unittest.TestCase):
-    def setUp(self):
-        self.app = app
 
     def test_valid_date(self):
-        result = self.app.parse_date('2023-01-01')
+        result = app.parse_date('2023-01-01')
         self.assertEqual(result, '2023-01-01')
 
     def test_invalid_date(self):
-        result = self.app.parse_date('-1200 12 21')
+        result = app.parse_date('-1200 12 21')
         self.assertEqual(result, None)
 
     def test_invalid_date_format(self):
-        result = self.app.parse_date('21-12-2001')
+        result = app.parse_date('21-12-2001')
         self.assertEqual(result, None)
 
+
+class TestParseQuotNum(unittest.TestCase):
+    def test_valid_quot_num(self):
+        result = app.parse_quot_num(20)
+        self.assertEqual(result, 20)
+
+    def test_invalid_quot_num_str(self):
+        reslut = app.parse_quot_num("hi")
+        self.assertEqual(reslut, None)
+
+    def test_invalid_quot_num_zero(self):
+        reslut = app.parse_quot_num(0)
+        self.assertEqual(reslut, None)
+
+    def test_invalid_quot_num_minus(self):
+        reslut = app.parse_quot_num(-10)
+        self.assertEqual(reslut, None)
+
+    def test_invalid_quot_num_too_much(self):
+        reslut = app.parse_quot_num(260)
+        self.assertEqual(reslut, None)
+
+
+class TestMakeUrl(unittest.TestCase):
+    def test_avg_exch(self):
+        result = app.make_url(("ebp", "2023-01-02"))
+        self.assertEqual(
+            result, "http://api.nbp.pl/api/exchangerates/rates/a/ebp/2023-01-02")
+
+    def test_min_max_val(self):
+        result = app.make_url(("ebp", 2), last_data=True)
+        self.assertEqual(
+            result, "http://api.nbp.pl/api/exchangerates/rates/a/ebp/last/2")
+
+    def test_major_diff(self):
+        result = app.make_url(("ebp", 2), table="c", last_data=True)
+        self.assertEqual(
+            result, "http://api.nbp.pl/api/exchangerates/rates/c/ebp/last/2")
 
 
 class TestAvgExch(unittest.TestCase):
