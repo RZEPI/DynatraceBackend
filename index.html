@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backend oriented task</title>
+    |<link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -56,30 +57,40 @@
     </script>
 </head>
 <body>
-    <h1>Choose which data you want to get</h1>
-    <label for="avg_exch">Average exchange rate</label><input type="radio" name="option" value="avg_exch" id="avg_exch"><br>
-    <label for="min_max_val">Max and min average value</label><input type="radio" name="option" value="min_max_val" id="min_max_val"><br>
-    <label for="major_diff">Major differrence between the buy and ask rate</label><input type="radio" name="option" value="major_diff" id="major_diff"><br>
-    <form id="date_curr" style="display: none;" onsubmit="getAvgExch(event)">
-        <fieldset>
-            <legend>Date and currency code</legend>
-            <label for="date">Input date:</label>
-            <input type="date" id="date">
-            <label for="currencyD">Input currency code:</label>
-            <input type="text" id="currencyD">
-            <input type="submit" value="Submit">
-        </fieldset>
-    </form>
-    <form id="curr_lastQ" style="display: none;" onsubmit="getCurrLastQ(event)">
-        <fieldset>
-            <legend>Currency code and number of last quoations</legend>
-            <label for="currencyL">Input currency code:</label>
-            <input type="text" id="currencyL">
-            <label for="number">Input number:</label>
-            <input type="number" id="number" min="1" max="255">
-            <input type="submit" value="Submit">
-        </fieldset>
-    </form>
-    <h1 id="result" style="display: none;"></h1>
+    <div>
+        <div>
+            <h1>Choose which data you want to get</h1>
+        </div>
+        <div>
+            <label for="avg_exch">Average exchange rate</label><input type="radio" name="option" value="avg_exch" id="avg_exch"><br>
+            <label for="min_max_val">Max and min average value</label><input type="radio" name="option" value="min_max_val" id="min_max_val"><br>
+            <label for="major_diff">Major differrence between the buy and ask rate</label><input type="radio" name="option" value="major_diff" id="major_diff"><br>
+        </div>
+        <div>
+            <form id="date_curr" style="display: none;" onsubmit="getAvgExch(event)">
+                <fieldset>
+                    <legend>Date and currency code</legend>
+                    <label for="date">Input date:</label>
+                    <input type="date" id="date">
+                    <label for="currencyD">Input currency code:</label>
+                    <input type="text" id="currencyD">
+                    <input type="submit" value="Submit">
+                </fieldset>
+            </form>
+            <form id="curr_lastQ" style="display: none;" onsubmit="getCurrLastQ(event)">
+                <fieldset>
+                    <legend>Currency code and number of last quoations</legend>
+                    <label for="currencyL">Input currency code:</label>
+                    <input type="text" id="currencyL">
+                    <label for="number">Input number:</label>
+                    <input type="number" id="number" min="1" max="255">
+                    <input type="submit" value="Submit">
+                </fieldset>
+            </form>
+        </div>
+        <div>
+            <h1 id="result"></h1>
+        </div>
+    </div>
 </body>
 </html>
