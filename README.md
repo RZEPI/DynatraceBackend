@@ -15,17 +15,27 @@ chmod +x initialization.sh
 ./initialization.sh
 ```
 For Windows:
-```./initialization.bat```
+```
+./initialization.bat
+```
 Nextly, in your browser type `localhost:8888` in search bar to use GUI
 Usage of command `curl` in command prompt is also handled but unrecommanded(it returns whole header on Windows)
 Example of text command
-```curl http://localhost:8888/minmaxval/gbp/2```
+```
+curl http://localhost:8888/minmaxval/gbp/2
+```
 
 ###Run tests
 To run tests make sure that you are in virtual environment which was made executing one of scripts
 For Linux:
-``` source venv/bin/activate ```
+```
+source venv/bin/activate
+```
 For Windows:
-``` .\venv\Scripts\activate ```
+```
+.\venv\Scripts\activate
+```
 than run a following command
-``` python tests.py ```
+``` 
+python tests.py 
+```
