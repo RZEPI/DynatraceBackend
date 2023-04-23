@@ -4,9 +4,21 @@ from flask_cors import CORS
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from datetime import datetime
 import json
+import http.server
+import socketserver
+import threading
 
 app = Flask(__name__)
 CORS(app)
+
+
+def run_http_server():
+    PORT = 8888
+    Handler = http.server.SimpleHTTPRequestHandler
+
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print("Serving at port", PORT)
+        httpd.serve_forever()
 
 
 def parse_curr_code(curr_code):
@@ -140,4 +152,5 @@ def major_diff(curr_code, quot_number):
 
 
 if __name__ == '__main__':
+    server = threading.Thread(target=run_http_server)
     app.run(port=8888)
