@@ -6,6 +6,10 @@ To clone the repository, in your console input this commands
 git init
 git clone https://github.com/RZEPI/DynatraceBackend/
 ```
+Than go to directory with a project
+```
+cd DynataceBackend
+```
 The program can be easly run on both Linux and Windows. The project contains 2 initalization files: initialization.sh - for Linux and initialization.bat - for Windows.
 
 For Linux: 
@@ -15,10 +19,10 @@ chmod +x initialization.sh
 ```
 For Windows:
 ```
-./initialization.bat
+initialization.bat
 ```
 Nextly, in your browser type `localhost:8888` in search bar to use GUI  
-Usage of command `curl` in command prompt is also handled but unrecommanded(it returns whole header on Windows)  
+Usage of command `curl` in command prompt is also handled but unrecommanded(GUI is more user friendly)  
 Example of text command:
 ```
 curl http://localhost:8888/minmaxval/gbp/2
@@ -32,7 +36,7 @@ source venv/bin/activate
 ```
 For Windows:
 ```
-.\venv\Scripts\activate
+venv\Scripts\activate
 ```
 than run a following command
 ``` 
