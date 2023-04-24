@@ -30,7 +30,7 @@
                 $('#result').text(text + " " +data.result);
                 $('#result').show();
             }).fail(function(){
-                $('#result').text('Something went wrong with connection');
+                $('#result').text('Something went wrong with a connection');
                 $('#result').show();
             });
         }
@@ -40,7 +40,7 @@
             event.preventDefault();
             var currency = $('#currencyD').val();
             var date = $('#date').val();
-            getResult('Exchange rate of given currency at '+date+':','exchanges', [currency, date]);
+            getResult('Exchange rate of a given currency at '+date+':','exchanges', [currency, date]);
         }
 
         function getCurrLastQ(event)
