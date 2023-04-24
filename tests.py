@@ -166,5 +166,44 @@ class TestMajorDiff(unittest.TestCase):
                          "Invalid number of quotations format")
 
 
+class TestMinMaxValResult(unittest.TestCase):
+    def test_majordiff_result(self):
+        test_list = []
+        test_case = {}
+        test_case['mid'] = 5.1123132
+        test_list.append(test_case.copy())
+        test_case['mid'] = 5.2123132
+        test_max_val = test_case['mid']
+        test_max_val = "{:.4f}".format(test_max_val)
+        test_list.append(test_case.copy())
+        test_case['mid'] = 5.0323132
+        test_min_val = test_case['mid']
+        test_min_val = "{:.4f}".format(test_min_val)
+        test_list.append(test_case.copy())
+        test_data = {'rates': test_list}
+        min_max_val = app.min_max_val_result(test_data)
+        self.assertEqual(min_max_val, (test_min_val, test_max_val))
+
+
+class TestMajordiffResult(unittest.TestCase):
+    def test_majordiff_result(self):
+        test_list = []
+        test_case = {}
+        test_case['ask'] = 5.1123132
+        test_case['bid'] = 4.9212132
+        test_max_diff = test_case['ask'] - test_case['bid']
+        test_max_diff = "{:.4f}".format(test_max_diff)
+        test_list.append(test_case.copy())
+        test_case['ask'] = 3.0123132
+        test_case['bid'] = 2.9212132
+        test_list.append(test_case.copy())
+        test_case['ask'] = 2.9323132
+        test_case['bid'] = 2.9212132
+        test_list.append(test_case.copy())
+        test_data = {'rates': test_list}
+        max_diff = app.major_diff_result(test_data)
+        self.assertEqual(max_diff, test_max_diff)
+
+
 if __name__ == '__main__':
     unittest.main()
